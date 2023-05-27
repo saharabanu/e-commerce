@@ -2,7 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
 const xssClean = require('xss-clean');
-const rateLimit = require('express-rate-limit')
+const rateLimit = require('express-rate-limit');
+const userRouter = require('./routers/userRouter');
+const seedRouter = require('./routers/seedRouter');
+
 
 const app = express();
 
@@ -14,16 +17,19 @@ const rateLimiter = rateLimit({
 })
 
 
-
-
-
 // middleware
 app.use(rateLimiter);
 app.use(xssClean());
 app.use(morgan("dev"));
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+
+
+
+app.use('/api/v1/users',userRouter);
+app.use('/api/v1/seed',seedRouter);
+
 
 
 
@@ -31,28 +37,12 @@ app.use(express.urlencoded({extended: true}));
 
 app.get('/test', (req, res) => {
   res.status(200).json({
-    message:'Welcome to E-commerce project server, api is working fine'
+    message:'Welcome to E-commerce project server, api is working fine',
+    
   })
 
 });
-app.post('/post', (req, res) => {
-  res.status(200).json({
-    message:'Welcome to E-commerce project server, post api is working fine'
-  })
 
-});
-app.delete('/delete', (req, res) => {
-  res.status(200).json({
-    message:'Welcome to E-commerce project server, delete api is working fine'
-  })
-
-});
-app.put('/put', (req, res) => {
-  res.status(200).json({
-    message:'Welcome to E-commerce project server, put api is working fine'
-  })
-
-});
 
 
 //client error handling 

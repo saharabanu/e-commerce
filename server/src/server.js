@@ -1,11 +1,13 @@
-const app = require("./app")
+const app = require("./app");
+const connectDatabase = require("./config/db");
 const { serverPort } = require("./secret")
 
 
 
 
-app.listen(serverPort, () => {
-  console.log(`E-commerce-server is listening on port ${serverPort}`)
+app.listen(serverPort, async() => {
+  console.log(`E-commerce-server is listening on port ${serverPort}`);
+  await connectDatabase()
 })
 
 
