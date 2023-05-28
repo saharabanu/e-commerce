@@ -5,10 +5,12 @@ const xssClean = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const userRouter = require('./routers/userRouter');
 const seedRouter = require('./routers/seedRouter');
+const { errorResponse } = require('./controllers/responseController');
 
 
 const app = express();
 
+// if any hacker or any users try to access get | post| delete | pt or any api over 5 times in one minutes , it is not not possible now. Because , we have set limit.
 
 const rateLimiter = rateLimit({
     windowMs : 1 * 60 * 1000,
@@ -17,7 +19,7 @@ const rateLimiter = rateLimit({
 })
 
 
-// middleware
+// all middlewares are here
 app.use(rateLimiter);
 app.use(xssClean());
 app.use(morgan("dev"));
@@ -26,7 +28,7 @@ app.use(express.urlencoded({extended: true}));
 
 
 
-
+// routing sector
 app.use('/api/v1/users',userRouter);
 app.use('/api/v1/seed',seedRouter);
 
@@ -56,11 +58,10 @@ app.use((req,res,next) => {
 //server error handling 
 
 
-app.use((err,req,res,next) => {
-  
-    return res.status(err.status || 500).json({
-        success: false,
-        message:err.message
+app.use((err, req,res,next) => {
+    return errorResponse(res, {
+      statusCode:err.status,
+      message: err.message
     })
 
 });
