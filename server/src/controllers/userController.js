@@ -1,8 +1,9 @@
 const User = require("../models/userModel");
 const createError = require('http-errors');
-const fs = require('fs');
+
 const { successResponse, errorResponse } = require("./responseController");
 const { findWithId } = require("../services/itemFindById");
+const { deleteImage } = require("../helpers/deleteImage");
 
 
 
@@ -127,17 +128,9 @@ const { findWithId } = require("../services/itemFindById");
      // remove users image must from public , fs module diye
 
      const userImagePath = user.image;
-     fs.access(userImagePath,(err)=>{
-      if(err){
-        console.error("user image does not exist")
-      }
-      else{
-        fs.unlink(userImagePath, (err) => {
-          if(err) throw err;
-          console.log("user image was deleted")
-        })
-      }
-     });
+     deleteImage(userImagePath)
+
+     
 
      await User.findByIdAndDelete({
       _id: id,
