@@ -2,20 +2,20 @@ const { default: mongoose } = require("mongoose");
 const createError = require('http-errors');
 const User = require("../models/userModel");
 
-const userFindById = async(id) => {
+const findWithId = async(id, options = {}) => {
 try {
     // we don't to show password when we will find users,so we use this and pass as parameter
-const options = {password: 0};
+
    
 // findById method
-const user = await User.findById(id, options);
+const item = await User.findById(id, options);
 
 // to handle error or worst case
-if(!user) {
-  throw createError(404, "user not Found By Id")
+if(!item) {
+  throw createError(404, "🐱‍🏍 oops!!! item not Found By Id")
 }
 
-return user;
+return item;
 
 
 } catch (error) {
@@ -28,4 +28,4 @@ return user;
 }
 };
 
-module.exports = {userFindById}
+module.exports = {findWithId}

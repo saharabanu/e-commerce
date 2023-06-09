@@ -1,8 +1,9 @@
 const User = require("../models/userModel");
 const createError = require('http-errors');
+const fs = require('fs');
 const { successResponse, errorResponse } = require("./responseController");
-const { default: mongoose } = require("mongoose");
-const { userFindById } = require("../services/userFindById");
+const { findWithId } = require("../services/itemFindById");
+
 
 
 // find all users controller function
@@ -78,8 +79,8 @@ const { userFindById } = require("../services/userFindById");
     // id comes form params
 
     const id = req.params.id;
-    
-   const user = await userFindById(id)
+    const options = {password: 0};
+   const user = await findWithId(id, options)
      return successResponse(res,{
       statusCode: 200,
       message: 'user was returned successfully',
@@ -114,15 +115,48 @@ const { userFindById } = require("../services/userFindById");
 
 
 
-
-  const deleteUser = (req, res,next) => {
+// delete user
+  const deleteUser = async (req, res,next) => {
     try {
-        res.status(200).json({
-            message: "Welcome to E-commerce project server, delete api is working fine",
-          });
-    } catch (error) {
-        next(error)
-    }
+      // id comes form params
+  
+      const id = req.params.id;
+      const options = {password: 0};
+     const user = await findWithId(id, options);
+
+     // remove users image must from public , fs module diye
+
+     const userImagePath = user.image;
+     fs.access(userImagePath,(err)=>{
+      if(err){
+        console.error("user image does not exist")
+      }
+      else{
+        fs.unlink(userImagePath, (err) => {
+          if(err) throw err;
+          console.log("user image was deleted")
+        })
+      }
+     });
+
+     await User.findByIdAndDelete({
+      _id: id,
+      isAdmin:false
+     })
+
+       return successResponse(res,{
+        statusCode: 200,
+        message: 'user was deleted successfully',
+        
+  
+       })
+     
+      
+     } catch (error) {
+      
+      next(error)
+      
+     }
   }
 
 

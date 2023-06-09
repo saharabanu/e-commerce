@@ -1,4 +1,4 @@
-1. Course Plan
+1. Project Plan
 2. Environment Setup
 3. Create Express server
 4. HTTP request and response
@@ -19,3 +19,9 @@
 
 18. GET / api/v1/users/:id => get a single user by id
 19. How to create services in the backend
+20. DELETE/api/v1/users/:id => delete a single user by id
+21.Refactoring & reUsability, dynamic
+22. Add express validator middleware
+23. Add multer middleware for file upload
+24. POST/api/v1/user => create an user
+25. Put/api/v1/users/:id => update a single user by id
