@@ -74,13 +74,13 @@ const { findWithId } = require("../services/itemFindById");
 
 // find user by id controller function
 
-  const getUser =  async(req, res, next) => {
+  const getUserById =  async(req, res, next) => {
    try {
     // id comes form params
 
     const id = req.params.id;
     const options = {password: 0};
-   const user = await findWithId(id, options)
+   const user = await findWithId(User,id, options)
      return successResponse(res,{
       statusCode: 200,
       message: 'user was returned successfully',
@@ -116,13 +116,13 @@ const { findWithId } = require("../services/itemFindById");
 
 
 // delete user
-  const deleteUser = async (req, res,next) => {
+  const deleteUserById = async (req, res,next) => {
     try {
       // id comes form params
   
       const id = req.params.id;
       const options = {password: 0};
-     const user = await findWithId(id, options);
+     const user = await findWithId(User,id, options);
 
      // remove users image must from public , fs module diye
 
@@ -172,4 +172,4 @@ const { findWithId } = require("../services/itemFindById");
 
 
 
-module.exports = {getUsers,getUser, postUser, deleteUser, updateUser}
+module.exports = {getUsers,getUserById, postUser, deleteUserById, updateUser}
