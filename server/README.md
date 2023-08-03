@@ -31,6 +31,11 @@
 
 23. POST/api/v1/users/register => create an user, Process the registration start↣ most important, ✔✔✔
 24. Create Jwt ✔✔✔
+
+25. Setup SMTP(create a account) server and Prepare email. Done
+26. Send email (nodemailer npm install)
+
+
 25.POST/api/v1/users/verify => verify + register into database.
 26.Add express validator middleware
 27. Add multer middleware for file upload
