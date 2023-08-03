@@ -10,7 +10,7 @@ const { errorResponse } = require('./controllers/responseController');
 
 const app = express();
 
-// if any hacker or any users try to access get | post| delete | pt or any api over 5 times in one minutes , it is not not possible now. Because , we have set limit.
+// if any hacker or any users try to access get | post| delete | put or any api over 5 times in one minutes , it is  not possible now. Because , we have set limit.
 
 const rateLimiter = rateLimit({
     windowMs : 1 * 60 * 1000,

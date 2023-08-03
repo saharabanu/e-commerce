@@ -11,7 +11,7 @@ const userSchema = new Schema({
   name:{
     type: String,
     required: [true, "user name is required"],
-    trim: true,
+    trim: true, // to capture empty space
     maxLength:[31, "The length of User name can be maximum 31 character"],
     minLength:[3, "The length of User name can be minimum 3 character"],
   },
@@ -19,7 +19,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, "User email is required"], 
     trim: true,
-    lowerCase:true,
+    lowerCase:true, // convert lowercase
     unique: true,
     validate:{
       validator: function (v){

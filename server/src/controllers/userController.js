@@ -4,6 +4,8 @@ const createError = require('http-errors');
 const { successResponse, errorResponse } = require("./responseController");
 const { findWithId } = require("../services/itemFindById");
 const { deleteImage } = require("../helpers/deleteImage");
+const createJsonWebToken = require("../helpers/jsonWebToken");
+const { jwtActivationKey } = require("../secret");
 
 
 
@@ -20,7 +22,7 @@ const { deleteImage } = require("../helpers/deleteImage");
 
     /// regular expression for searching
 
-    const searchRegExp = new RegExp(".*" + search + ".*");
+    const searchRegExp = new RegExp(".*" + search + ".*","i"); // i is used for case sensitive
 
     // only search and get user not any admin, we can search by using name or email or phone number
     const filter = {
@@ -31,6 +33,7 @@ const { deleteImage } = require("../helpers/deleteImage");
         {phone: {$regex : searchRegExp}},
       ]
     };
+    
    // we don't to show password when we will find users,so we use this and pass as parameter
     const options = {password: 0}
 
@@ -99,14 +102,32 @@ const { deleteImage } = require("../helpers/deleteImage");
    }
   }
 
+// register user
 
-
-  const postUser = (req, res,next) => {
+  const postUser = async(req, res,next) => {
    try {
-    res.status(200).json({
-        message:'Welcome to E-commerce project server, post api is working fine',
-       
-      })
+    const {name, email, password, phone, address} = req.body;
+
+    // to handle  same email in double. user will create if email is not unique
+ const isUserExist = await User.exists({email:email})
+
+ if(isUserExist){
+  throw createError(409,"This email is already exist. Please login")
+ }
+ // jwt token
+ const token = createJsonWebToken({name, email, password, phone, address}, jwtActivationKey, "10m");
+//  console.log(token)
+
+   const newUser = {
+    name, email, password, phone, address
+   }
+     return successResponse(res,{
+      statusCode: 200,
+      message: 'user was Created successfully',
+      payload: {token}
+      
+
+     })
     
    } catch (error) {
     next(error)
@@ -131,7 +152,7 @@ const { deleteImage } = require("../helpers/deleteImage");
      deleteImage(userImagePath)
 
      
-
+// delete method
      await User.findByIdAndDelete({
       _id: id,
       isAdmin:false
