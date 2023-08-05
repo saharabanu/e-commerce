@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-  console.log("user", smtpUserName, "password",smtpUserPassword)
+  // console.log("user", smtpUserName, "password",smtpUserPassword)
 
   const sendEmailWithNodeMailer = async (emailData) => {
 
@@ -25,9 +25,9 @@ const transporter = nodemailer.createTransport({
     };
 
     const info = await transporter.sendMail(emailOptions);
-    console.log("message sent", info.response)
+    // console.log("message sent", info.response)
    } catch (error) {
-    console.error("error occurred with sending email");
+    // console.error("error occurred with sending email");
     throw error
     
    }

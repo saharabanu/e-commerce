@@ -33,10 +33,11 @@
 24. Create Jwt ✔✔✔
 
 25. Setup SMTP(create a account) server and Prepare email. Done
-26. Send email (nodemailer npm install)
+26. Send email (nodemailer npm install) .Done
 
 
-25.POST/api/v1/users/verify => verify + register into database.
-26.Add express validator middleware
+27.POST/api/v1/users/verify => verify + register into database. Done
+
+28.Add express validator middleware
 27. Add multer middleware for file upload
 28. Put/api/v1/users/:id => update a single user by id
