@@ -37,7 +37,10 @@
 
 
 27.POST/api/v1/users/verify => verify + register into database. Done
+28. Add multer middleware for file upload done
+29. Add File size and filtering done
 
-28.Add express validator middleware
-27. Add multer middleware for file upload
+
+31.Add express validator middleware
+
 28. Put/api/v1/users/:id => update a single user by id

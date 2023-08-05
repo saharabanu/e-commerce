@@ -121,7 +121,7 @@ const postUser = async (req, res, next) => {
     };
     // send node mailer email
     try {
-      await sendEmailWithNodeMailer(emailData);
+       await sendEmailWithNodeMailer(emailData);
     } catch (emailError) {
       next(createError(500, "Failed to send verification email"));
       return;
