@@ -41,6 +41,7 @@
 29. Add File size and filtering done
 
 
-31.Add express validator middleware
+31.Add express validator npm install middleware () done
+32. Image buffer
 
 28. Put/api/v1/users/:id => update a single user by id

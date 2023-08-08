@@ -93,6 +93,12 @@ const getUserById = async (req, res, next) => {
 const postUser = async (req, res, next) => {
   try {
     const { name, email, password, phone, address } = req.body;
+    // to create buufer image 
+    const bufferImage = req.file.buffer.toString("base64");
+    // if it is error
+    if(!req.file){
+
+    }
 
     // to handle  same email in double. user will create if email is not unique
     const isUserExist = await User.exists({ email: email });
@@ -102,7 +108,7 @@ const postUser = async (req, res, next) => {
     }
     // jwt token
     const token = createJsonWebToken(
-      { name, email, password, phone, address },
+      { name,image:bufferImage, email, password, phone, address },
       jwtActivationKey,
       "10m"
     );
