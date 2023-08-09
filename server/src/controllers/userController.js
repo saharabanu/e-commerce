@@ -93,11 +93,19 @@ const getUserById = async (req, res, next) => {
 const postUser = async (req, res, next) => {
   try {
     const { name, email, password, phone, address } = req.body;
-    // to create buufer image 
-    const bufferImage = req.file.buffer.toString("base64");
-    // if it is error
-    if(!req.file){
 
+    const image = req.file
+    // to create buufer image 
+    const bufferImage = image.buffer.toString("base64");
+    // if it is error
+   
+    if(!image){
+ throw createError(400, "Image file is required")
+    }
+
+    // to control file size
+    if(image.size > 1024 * 1024 * 2){
+ throw createError(400, "File is too large. It must be less than 2 mb")
     }
 
     // to handle  same email in double. user will create if email is not unique
@@ -224,15 +232,77 @@ const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
+// update user
+const updateUser = async (req, res, next) => {
 
-const updateUser = (req, res, next) => {
+
   try {
-    res.status(200).json({
-      message: "Welcome to E-commerce project server, put api is working fine",
+
+    // id comes form params
+
+    const id = req.params.id;
+    const options = { password: 0 };
+   await findWithId(User, id, options);
+    const updateOptions = { new: true, runValidators: true, context:"query"}
+    
+    let update = {};
+
+    // if(req.body.name){
+    //   update.name=req.body.name
+    // }
+    // if(req.body.password){
+    //   update.password=req.body.password
+    // }
+    // if(req.body.phone){
+    //   update.phone=req.body.phone
+    // }
+    // if(req.body.address){
+    //   update.address=req.body.address
+    // }
+
+
+    /// short cut 
+
+    for(let key in req.body){
+      if(['name','address','phone','password'].includes(key)){
+       update[key]= req.body[key]
+      }
+      else if(['email'].includes(key)){
+       throw new Error( 'Email can not be updated')
+      }
+      
+    }
+    const image = req.file;
+    
+    if(image){
+      // to control file size
+    if(image.size > 1024 * 1024 * 2){
+      throw createError(400, "File is too large. It must be less than 2 mb")
+         }
+         update.image = image.buffer.toString('base64')
+    }
+// delete email if anyone can update email, he cant do it
+
+//delete update.email;
+// update method
+     const updatedUser = await User.findByIdAndUpdate(id, update, updateOptions).select("-password")
+     if(!updatedUser){
+ throw createError(404, " User with this id doesn't exists")
+     }
+    return successResponse(res, {
+      statusCode: 200,
+      message: "user was Updated successfully",
+      payload:updatedUser
     });
+
+
+    
   } catch (error) {
     next(error);
   }
 };
+
+
+
 
 module.exports = { getUsers, getUserById, postUser, deleteUserById, updateUser, activateAccount };

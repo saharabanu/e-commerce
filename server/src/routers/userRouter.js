@@ -11,6 +11,6 @@ userRouter.get("/:id",getUserById );
 userRouter.post("/register",upload.single("image"),validationRegistration,runValidators, postUser);
 userRouter.post("/verify", activateAccount);
 userRouter.delete("/:id", deleteUserById);
-userRouter.put("/put", updateUser);
+userRouter.put("/:id",upload.single("image"), updateUser);
 
 module.exports = userRouter;
