@@ -8,6 +8,8 @@ const defaultImagePath = process.env.DEFAULT_USER_IMAGE_PATH || '../public/image
 
 // JWT KEY
 const jwtActivationKey =  process.env.JWT_ACTIVATION_KEY || 'abc123456b';
+// JWT accessKEY
+const jwtAccessKey =  process.env.NEW_ACCESS_KEY || '123abc';
 
 // smtp username and email
 
@@ -18,4 +20,4 @@ const uploadFile = process.env.UPLOAD_DIR || 'public/images/users'
 
 
 
-module.exports = {serverPort, mongoDBUrl, defaultImagePath,jwtActivationKey, smtpUserName,smtpUserPassword, client_Url,uploadFile}
+module.exports = {serverPort, mongoDBUrl, defaultImagePath,jwtActivationKey, smtpUserName,smtpUserPassword, client_Url,uploadFile, jwtAccessKey}

@@ -6,6 +6,8 @@ const rateLimit = require('express-rate-limit');
 const userRouter = require('./routers/userRouter');
 const seedRouter = require('./routers/seedRouter');
 const { errorResponse } = require('./controllers/responseController');
+const authRouter = require('./routers/authRouter');
+const cookieParser = require('cookie-parser')
 
 
 const app = express();
@@ -20,6 +22,7 @@ const rateLimiter = rateLimit({
 
 
 // all middlewares are here
+app.use(cookieParser())
 app.use(rateLimiter);
 app.use(xssClean());
 app.use(morgan("dev"));
@@ -30,6 +33,7 @@ app.use(express.urlencoded({extended: true}));
 
 // routing sector
 app.use('/api/v1/users',userRouter);
+app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/seed',seedRouter);
 
 

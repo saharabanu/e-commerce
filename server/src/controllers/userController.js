@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 
-const { successResponse, errorResponse } = require("./responseController");
+const { successResponse } = require("./responseController");
 const { findWithId } = require("../services/itemFindById");
 const { deleteImage } = require("../helpers/deleteImage");
 const createJsonWebToken = require("../helpers/jsonWebToken");

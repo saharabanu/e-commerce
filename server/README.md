@@ -42,6 +42,10 @@
 
 
 31.Add express validator npm install middleware () done
-32. Image buffer
+32. Image buffer done
 
-28. Put/api/v1/users/:id => update a single user by id
+33. Put/api/v1/users/:id => update a single user by id done
+34. Post/api/v1/auth/login   User Login Using jwt, install cookie-parser done
+35. Post/api/v1/auth/logout  User Logout done
+36. Middlewares => isLoggedIn, isLoggedOut, IsAdmin
+37. GET/ api/v1/auth/refresh  => refresh the token
