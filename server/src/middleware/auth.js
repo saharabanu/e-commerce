@@ -18,7 +18,9 @@ const isLoggedIn = async(req,res, next) => {
             throw createError(401, 'Invalid access token. Please Login again')
         }
 
-          req.body.userId = decoded._id
+          req.user = decoded.user1
+          //console.log(req.user)
+          //console.log(decoded.user1,)
 
         next()
     } catch (error) {
@@ -31,8 +33,8 @@ const isLoggedOut = async(req,res, next) => {
 
         // access token from cookie
         const token = req.cookies.access_Token;
-        if(!token){
-            throw createError(401, "User Already LoggedIn")
+        if(token){
+            throw createError(400, "User Already LoggedIn")
         }
         next()
     } catch (error) {
@@ -40,4 +42,17 @@ const isLoggedOut = async(req,res, next) => {
     }
 
 }
-module.exports = {isLoggedIn, isLoggedOut}
+const isAdmin = async(req,res, next) => {
+    try {
+        //console.log(req.user.isAdmin)
+
+        if(!req.user.isAdmin){
+            throw createError(403, 'Forbidden. You must be an Admin to access all users')
+        }
+        next()
+    } catch (error) {
+        return next(error)
+    }
+
+}
+module.exports = {isLoggedIn, isLoggedOut, isAdmin}

@@ -73,6 +73,8 @@ const getUserById = async (req, res, next) => {
   try {
     // id comes form params
 
+   
+
     const id = req.params.id;
     const options = { password: 0 };
     const user = await findWithId(User, id, options);

@@ -26,16 +26,21 @@ const {email, password} = req.body;
     throw createError(403, "You are Banned. Please Contact authority")
  }
 
+ const user1 ={
+   _id:user._id, email:user.email,
+   password:user.password, phone:user.phone,
+   isAdmin: user.isAdmin, isBanned:user.isBanned, image: user.image
+ }
  // jwt token
  const accessToken = createJsonWebToken(
-    {  id: user._id },
+     {user1 },
     jwtAccessKey,
-    "10m"
+    "15m"
   );
   res.cookie("access_Token", accessToken,{
     maxAge: 15 * 60 * 1000, // 15 minutes
     httpOnly: true,
-    //secure: true,
+   //secure: true,
     sameSite:"none" // it is used to control same site open like 30001 etc without 3000
   })
 
@@ -44,7 +49,7 @@ const {email, password} = req.body;
  return successResponse(res, {
     statusCode: 200,
       message: "User LoggedIn successfully",
-      payload:user
+      payload:{user}
  })
 
 

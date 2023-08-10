@@ -47,5 +47,5 @@
 33. Put/api/v1/users/:id => update a single user by id done
 34. Post/api/v1/auth/login   User Login Using jwt, install cookie-parser done
 35. Post/api/v1/auth/logout  User Logout done
-36. Middlewares => isLoggedIn, isLoggedOut, IsAdmin
+36. Middlewares => isLoggedIn, isLoggedOut, IsAdmin done
 37. GET/ api/v1/auth/refresh  => refresh the token
