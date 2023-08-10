@@ -28,7 +28,7 @@ const {email, password} = req.body;
 
  // jwt token
  const accessToken = createJsonWebToken(
-    {  email },
+    {  id: user._id },
     jwtAccessKey,
     "10m"
   );

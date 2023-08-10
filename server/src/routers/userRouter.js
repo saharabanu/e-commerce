@@ -3,14 +3,16 @@ const { getUsers, postUser,  updateUser, getUserById, deleteUserById, activateAc
 const upload = require("../middleware/uploadFile");
 const { validationRegistration } = require("../validators/auth");
 const runValidators = require("../middleware");
+const { isLoggedIn, isLoggedOut } = require("../middleware/auth");
 
 const userRouter = express.Router();
 
-userRouter.get("/", getUsers);
-userRouter.get("/:id",getUserById );
-userRouter.post("/register",upload.single("image"),validationRegistration,runValidators, postUser);
-userRouter.post("/verify", activateAccount);
-userRouter.delete("/:id", deleteUserById);
-userRouter.put("/:id",upload.single("image"), updateUser);
+
+userRouter.post("/register",upload.single("image"),isLoggedOut ,validationRegistration,runValidators, postUser);
+userRouter.post("/verify",isLoggedOut, activateAccount);
+userRouter.get("/",isLoggedIn, getUsers);
+userRouter.get("/:id",isLoggedIn, getUserById );
+userRouter.delete("/:id", isLoggedIn,deleteUserById);
+userRouter.put("/:id",upload.single("image"),isLoggedIn, updateUser);
 
 module.exports = userRouter;
